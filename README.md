@@ -1,31 +1,31 @@
 # Vi-VQA - Vietnamese Visual Question Answering
 
-Dự án VQA tiếng Việt sử dụng Knowledge Distillation từ Qwen2-VL-7B (Teacher) sang Qwen2-VL-2B (Student).
+Vietnamese VQA project using Knowledge Distillation from Qwen2-VL-7B (Teacher) to Qwen2-VL-2B (Student).
 
-## Cấu trúc dự án
+## Project Structure
 
 ```
 Pine_line/
-├── configs/                    # Cấu hình YAML
-│   ├── teacher.yaml            # Config train teacher 7B
-│   └── student.yaml            # Config distill student 2B
-├── notebooks/                  # Source notebooks gốc (tham khảo)
-├── scripts/                    # Scripts chạy Python
+├── configs/                    # YAML configurations
+│   ├── teacher.yaml            # Teacher 7B training config
+│   └── student.yaml            # Student 2B distillation config
+├── notebooks/                  # Original source notebooks (reference)
+├── scripts/                    # Python scripts
 │   ├── train_teacher.py        # Train teacher model
 │   ├── train_distill.py        # Knowledge distillation
 │   ├── inference.py            # Test inference
-│   └── run_api.py              # Chạy API + Gradio UI
-├── src/                        # Module code
+│   └── run_api.py              # Run API + Gradio UI
+├── src/                        # Code modules
 │   ├── teacher/                # Teacher model utils
 │   ├── distillation/           # Distillation utils
 │   ├── inference/              # Common inference
 │   └── api/                    # API & UI
-├── models/                     # Lưu trained models
+├── models/                     # Trained models storage
 ├── outputs/                    # Checkpoints
 └── README.md
 ```
 
-## Yêu cầu phần cứng
+## Hardware Requirements
 
 | Task | VRAM | GPU |
 |------|------|-----|
@@ -33,9 +33,9 @@ Pine_line/
 | Train Student (2B) | ~12GB | T4, L4 |
 | Inference | ~8GB | T4, L4 |
 
-## Cài đặt
+## Installation
 
-### 1. Tạo virtual environment (khuyến nghị)
+### 1. Create virtual environment (recommended)
 
 ```bash
 python -m venv venv
@@ -43,39 +43,39 @@ source venv/bin/activate  # Linux/Mac
 # venv\Scripts\activate   # Windows
 ```
 
-### 2. Cài đặt dependencies
+### 2. Install dependencies
 
 ```bash
-# Cài unsloth (tự động cài các package cần thiết)
+# Install unsloth (auto-installs required packages)
 pip install unsloth
 
-# Hoặc dùng requirements.txt
+# Or use requirements.txt
 pip install -r requirements.txt
 ```
 
-## Cách chạy
+## Usage
 
 ### 1. Train Teacher Model (7B)
 
-Train model 7B từ pretrained Qwen2-VL-7B-Instruct.
+Train 7B model from pretrained Qwen2-VL-7B-Instruct.
 
 ```bash
 python scripts/train_teacher.py
 ```
 
-**Output**: `models/teacher/` chứa LoRA weights và tokenizer
+**Output**: `models/teacher/` contains LoRA weights and tokenizer
 
 ---
 
 ### 2. Knowledge Distillation (7B → 2B)
 
-Distill knowledge từ teacher 7B sang student 2B.
+Distill knowledge from teacher 7B to student 2B.
 
 ```bash
 python scripts/train_distill.py
 ```
 
-**Trước khi chạy**: Chỉnh `configs/student.yaml` trỏ đến teacher checkpoint:
+**Before running**: Edit `configs/student.yaml` to point to teacher checkpoint:
 
 ```yaml
 teacher:
@@ -86,64 +86,64 @@ teacher:
 
 ---
 
-### 3. Inference (Test nhanh)
+### 3. Inference (Quick Test)
 
-Test model đã train với 1 ảnh và câu hỏi.
+Test trained model with an image and question.
 
 ```bash
-# Dùng pretrained model từ HuggingFace
-python scripts/inference.py -i test.jpg -q "Mô tả bức ảnh"
+# Use pretrained model from HuggingFace
+python scripts/inference.py -i test.jpg -q "Describe the image"
 
-# Dùng model đã train
-python scripts/inference.py -i test.jpg -q "Mô tả bức ảnh" -m models/student
+# Use trained model
+python scripts/inference.py -i test.jpg -q "Describe the image" -m models/student
 ```
 
 ---
 
-### 4. Chạy API Server + Gradio UI
+### 4. Run API Server + Gradio UI
 
-Chạy FastAPI backend + Gradio frontend.
+Run FastAPI backend + Gradio frontend.
 
 ```bash
 python scripts/run_api.py
 ```
 
-**Truy cập:**
+**Access:**
 - Gradio UI: http://localhost:7860
 - API Docs: http://localhost:8000/docs
 
-### Demo giao diện
+### Demo Interface
 
 ![Vi-VQA Interface](image.png)
 
 ---
 
-## Luồng huấn luyện hoàn chỉnh
+## Complete Training Pipeline
 
 ```bash
-# Bước 1: Train Teacher
+# Step 1: Train Teacher
 python scripts/train_teacher.py
 
-# Bước 2: Distill sang Student
+# Step 2: Distill to Student
 python scripts/train_distill.py
 
-# Bước 3: Test inference
-python scripts/inference.py -i test.jpg -q "Mô tả bức ảnh"
+# Step 3: Test inference
+python scripts/inference.py -i test.jpg -q "Describe the image"
 
-# Bước 4: Deploy API
+# Step 4: Deploy API
 python scripts/run_api.py
 ```
 
 
-## Xử lý lỗi thường gặp
+## Common Troubleshooting
 
-### Lỗi OOM (Out of Memory)
-- Giảm `batch_size` trong config
-- Tăng `gradient_accumulation_steps`
+### OOM (Out of Memory) Error
+- Reduce `batch_size` in config
+- Increase `gradient_accumulation_steps`
 
-### Lỗi truncation khi train
+### Truncation error during training
 ```yaml
-# Trong configs/teacher.yaml
+# In configs/teacher.yaml
 image_processor:
   max_pixels: 256 * 28 * 28
   min_pixels: 128 * 28 * 28
@@ -151,17 +151,17 @@ image_processor:
 
 ## Scripts
 
-| Script | Mục đích |
-|--------|----------|
+| Script | Purpose |
+|--------|---------|
 | `scripts/train_teacher.py` | Train teacher model 7B |
 | `scripts/train_distill.py` | Knowledge distillation 7B→2B |
-| `scripts/inference.py` | Test inference đơn lẻ |
-| `scripts/run_api.py` | Chạy FastAPI + Gradio UI |
+| `scripts/inference.py` | Single inference test |
+| `scripts/run_api.py` | Run FastAPI + Gradio UI |
 
 ## Modules
 
-| Module | Mô tả |
-|--------|--------|
+| Module | Description |
+|--------|-------------|
 | `src/teacher/` | Load & train teacher model |
 | `src/distillation/` | Student model & distillation loop |
 | `src/inference/` | Common inference functions |
