@@ -1,0 +1,32 @@
+# Core ML dependencies
+torch
+unsloth
+unsloth-zoo
+bitsandbytes
+accelerate
+xformers==0.0.34
+peft
+trl==0.22.2
+triton
+
+# Transformers
+transformers==4.56.2
+sentencepiece
+protobuf
+datasets==4.3.0
+huggingface-hub>=0.34.0
+hf_transfer
+
+# Training utilities
+matplotlib
+tqdm
+
+# API & UI
+fastapi
+uvicorn
+python-multipart
+nest-asyncio
+gradio
+requests
+Pillow
+pydantic
