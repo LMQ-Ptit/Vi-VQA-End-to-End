@@ -14,11 +14,13 @@ def create_distillation_optimizer(model, lr=2e-5):
 def distillation_training_loop(
     student_model,
     teacher_model,
+    teacher_processor,
     student_processor,
     train_loader,
     optimizer,
     num_epochs=1,
-    max_new_tokens=48
+    max_new_tokens=48,
+    cache_every=50
 ):
     """
     Training loop cho knowledge distillation
@@ -26,11 +28,13 @@ def distillation_training_loop(
     Args:
         student_model: Student model (2B)
         teacher_model: Teacher model (7B)
+        teacher_processor: Processor cho teacher
         student_processor: Processor cho student
         train_loader: DataLoader
         optimizer: AdamW8bit optimizer
         num_epochs: Số epoch
         max_new_tokens: Max tokens cho teacher inference
+        cache_every: Clear GPU cache every N steps
 
     Returns:
         Dictionary với training metrics
@@ -93,7 +97,9 @@ def distillation_training_loop(
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
-            torch.cuda.empty_cache()
+
+            if (steps + 1) % cache_every == 0:
+                torch.cuda.empty_cache()
 
             total_loss += loss.item()
             steps += 1
