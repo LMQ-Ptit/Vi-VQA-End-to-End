@@ -1,0 +1,86 @@
+# Main Configuration - Vi-VQA Project
+# Pipeline: Train 7B on VQA -> Distill to 2B
+# Note: outputs-7B/final_lora được push lên HuggingFace là MinhQuy24/Qwen-7B-Vi-VQA (cùng 1 model)
+
+project:
+  name: "Vi-VQA-End-to-End"
+  description: "Vietnamese Visual Question Answering: Train 7B, then Distill to 2B"
+  version: "2.0.0"
+  
+# ============ MAIN PIPELINE ============
+pipeline:
+  stage_1:
+    name: "Train 7B Model on VQA"
+    description: "Fine-tune unsloth/Qwen2-VL-7B-Instruct with LoRA on Vi-VQA dataset"
+    model: "unsloth/Qwen2-VL-7B-Instruct"
+    config_file: "training_config.yaml"
+    output: "outputs-7B/final_lora"
+    time_estimate: "24-48 hours (depending on GPU)"
+    
+  stage_2:
+    name: "Push to HuggingFace (Optional)"
+    description: "Upload trained 7B model to HuggingFace Hub"
+    model_path: "outputs-7B/final_lora"
+    huggingface_id: "MinhQuy24/Qwen-7B-Vi-VQA"  # Same model, just pushed to Hub
+    note: "This is the same as outputs-7B/final_lora, just uploaded"
+    
+  stage_3:
+    name: "Inference & Evaluation (7B)"
+    description: "Test trained 7B model"
+    teacher_model: "outputs-7B/final_lora"  # Or use MinhQuy24/Qwen-7B-Vi-VQA if pushed to Hub
+    
+  stage_4:
+    name: "Knowledge Distillation (7B -> 2B)"
+    description: "Distill trained 7B to lightweight 2B model"
+    config_file: "distillation_config.yaml"
+    teacher_model: "outputs-7B/final_lora"  # Use local trained 7B
+    student_model: "Qwen/Qwen2-VL-2B-Instruct"
+    output: "outputs-2B-distilled/final_lora"
+
+# Path configurations
+paths:
+  data_dir: "./data"
+  output_dir: "./outputs"
+  models_dir: "./models"
+  logs_dir: "./logs"
+  configs_dir: "./configs"
+  notebooks_dir: "./notebooks"
+  scripts_dir: "./scripts"
+  results_dir: "./results"
+
+# Models info
+models:
+  - id: "7B-base"
+    name: "unsloth/Qwen2-VL-7B-Instruct"
+    source: "unsloth"
+    purpose: "base_model_for_training"
+    params: "7B"
+    
+  - id: "7B-trained"
+    name: "outputs-7B/final_lora (or MinhQuy24/Qwen-7B-Vi-VQA on HuggingFace)"
+    source: "local or HuggingFace Hub"
+    purpose: "trained_teacher_model"
+    params: "7B"
+    status: "After training, same as MinhQuy24/Qwen-7B-Vi-VQA"
+    
+  - id: "2B"
+    name: "Qwen/Qwen2-VL-2B-Instruct"
+    source: "huggingface"
+    purpose: "student_model_for_distillation"
+    params: "2B"
+
+# Task info
+task:
+  name: "visual_question_answering"
+  language: "vietnamese"
+  approach: "knowledge_distillation"
+  
+# Device settings
+device:
+  cuda_available: true
+  n_gpu: 1
+  device_map: "auto"
+  mixed_precision: "bf16"  # Options: "bf16", "fp16", "no"
+
+
+

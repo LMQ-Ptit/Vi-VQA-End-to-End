@@ -1,0 +1,55 @@
+# Model Configuration for Vi-VQA
+# Note: outputs-7B/final_lora và MinhQuy24/Qwen-7B-Vi-VQA là CÙNG MỘT MODEL
+# Sau khi train xong, bạn push outputs-7B/final_lora lên HuggingFace là MinhQuy24/Qwen-7B-Vi-VQA
+
+# Stage 1: Base model for training from scratch
+model_base:
+  name: "unsloth/Qwen2-VL-7B-Instruct"
+  model_id: "Qwen2-VL-7B-base"
+  max_seq_length: 2048
+  load_in_4bit: true
+  purpose: "Train from scratch"
+  
+# Stage 2: Trained teacher model (same as outputs-7B/final_lora, just on HuggingFace)
+model_teacher:
+  local: "outputs-7B/final_lora"  # After training
+  huggingface: "MinhQuy24/Qwen-7B-Vi-VQA"  # After pushing to Hub (SAME MODEL)
+  max_seq_length: 2048
+  load_in_4bit: false
+  purpose: "Teacher for distillation"
+  
+# Stage 3: Student model (2B for distillation)
+model_student:
+  name: "Qwen/Qwen2-VL-2B-Instruct"
+  model_id: "Qwen2-VL-2B"
+  max_seq_length: 2048
+  load_in_4bit: true
+  purpose: "Student model to distill into"
+
+vision_processor:
+  max_pixels: 256 * 28 * 28  # 200704
+  min_pixels: 128 * 28 * 28  # 100352
+
+lora:
+  r: 32
+  lora_alpha: 32
+  lora_dropout: 0
+  bias: "none"
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  use_gradient_checkpointing: "unsloth"
+  use_rslora: true
+  random_state: 3407
+  loftq_config: null
+
+inference:
+  max_new_tokens: 48
+  do_sample: false
+  use_cache: true
+

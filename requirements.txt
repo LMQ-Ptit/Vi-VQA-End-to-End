@@ -1,32 +1,44 @@
-# Core ML dependencies
-torch
-unsloth
-unsloth-zoo
-bitsandbytes
-accelerate
-xformers==0.0.34
-peft
-trl==0.22.2
-triton
+# Vi-VQA Project Requirements
 
-# Transformers
-transformers==4.56.2
-sentencepiece
-protobuf
-datasets==4.3.0
-huggingface-hub>=0.34.0
-hf_transfer
+# Core ML/DL libraries
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.36.0
+datasets>=2.14.0
+peft>=0.7.0
 
-# Training utilities
-matplotlib
-tqdm
+# Vision-Language Model specific
+unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git
 
-# API & UI
-fastapi
-uvicorn
-python-multipart
-nest-asyncio
-gradio
-requests
-Pillow
-pydantic
+# Training & Inference
+trl>=0.7.4
+bitsandbytes>=0.41.0
+
+# Data processing
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Utilities
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+tqdm>=4.66.0
+pyyaml>=6.0
+
+# Jupyter
+jupyter>=1.0.0
+ipython>=8.0.0
+ipywidgets>=8.0.0
+
+# Development
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.0.0
+
+# Optional: Logging & Monitoring
+tensorboard>=2.14.0
+# wandb>=0.15.0  # Uncomment if using Weights & Biases
+
+# Optional: API related
+python-dotenv>=1.0.0
+requests>=2.31.0

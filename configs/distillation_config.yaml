@@ -1,0 +1,94 @@
+# Knowledge Distillation Configuration
+# Distilling trained 7B model (outputs-7B/final_lora) to lightweight 2B model
+# Using Response-Based Knowledge Distillation
+
+distillation:
+  enabled: true
+  method: "response_based"  # response_based or feature_based
+  
+  # Teacher model (7B - TRAINED on VQA)
+  # Use outputs-7B/final_lora (local) or MinhQuy24/Qwen-7B-Vi-VQA (if pushed to HuggingFace)
+  teacher:
+    model_name: "outputs-7B/final_lora"  # Change to MinhQuy24/Qwen-7B-Vi-VQA if using HuggingFace version
+    max_seq_length: 2048
+    load_in_4bit: false
+    device: "cuda"
+    
+  # Student model (2B - to be trained)
+  student:
+    model_name: "Qwen/Qwen2-VL-2B-Instruct"
+    max_seq_length: 2048
+    load_in_4bit: true
+    device: "cuda"
+
+  # Distillation hyperparameters
+  temperature: 4.0  # Higher = softer targets. Typical: 3.0-5.0
+  alpha: 0.5  # Weight of distillation loss (0.5 = equal weight with task loss)
+  
+  # KD Loss formula: alpha * KDLoss + (1-alpha) * TaskLoss
+  
+  # Training specifics for distillation
+  training:
+    per_device_train_batch_size: 1
+    per_device_eval_batch_size: 1
+    gradient_accumulation_steps: 8
+    warmup_steps: 10
+    num_train_epochs: 2  # Usually fewer epochs than base training
+    learning_rate: 5e-5  # Slightly higher LR for student
+    weight_decay: 0.01
+    
+    bf16: true
+    fp16: false
+    optim: "adamw_8bit"
+    max_grad_norm: 1.0
+    
+    logging_steps: 1
+    eval_steps: 50
+    save_steps: 200
+    save_strategy: "steps"
+    save_total_limit: 2
+    evaluation_strategy: "steps"
+    
+    output_dir: "outputs-2B-distilled"
+    remove_unused_columns: false
+    
+    seed: 42
+    data_seed: 42
+    report_to: []
+
+  # LoRA config for student model (2B)
+  lora:
+    r: 32
+    lora_alpha: 32
+    lora_dropout: 0
+    bias: "none"
+    target_modules:
+      - "q_proj"
+      - "k_proj"
+      - "v_proj"
+      - "o_proj"
+      - "gate_proj"
+      - "up_proj"
+      - "down_proj"
+    use_gradient_checkpointing: "unsloth"
+    use_rslora: true
+    random_state: 3407
+
+  # Data for distillation
+  data:
+    use_train_set: true  # Use VQA training set for distillation
+    use_synthetic_data: false  # Generate synthetic QA from teacher if needed
+    num_synthetic_samples: 0
+    
+# Evaluation & Comparison
+evaluation:
+  compare_outputs: true  # Compare teacher (7B) vs student (2B) outputs
+  save_comparisons: true  # Save comparison results
+  comparison_file: "distillation_comparison.json"
+  
+# Quality assurance
+qa:
+  check_response_similarity: true
+  min_similarity_threshold: 0.7  # BLEU/ROUGE score threshold
+
+

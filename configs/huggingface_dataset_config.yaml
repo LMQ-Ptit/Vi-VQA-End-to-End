@@ -1,0 +1,75 @@
+# HuggingFace Dataset Configuration for Vi-VQA
+# Load dataset from: MinhQuy24/vlsp2023-vqa-dataset
+
+huggingface_dataset:
+  repo_id: "MinhQuy24/vlsp2023-vqa-dataset"
+  
+  # Dataset splits available
+  splits:
+    - train
+    - dev
+    - test
+  
+  # Optional: Cache directory for downloaded data
+  cache_dir: "./data/cache"
+  
+  # Download settings
+  download_settings:
+    timeout: 300  # seconds
+    max_retries: 3
+  
+  # Authentication
+  use_auth_token: true  # Set HF_TOKEN environment variable
+
+# Local data paths (if you download to local)
+local_paths:
+  train_images: "./data/raw/train"
+  dev_images: "./data/raw/dev"
+  test_images: "./data/raw/test"
+  
+  train_json: "./data/raw/vlsp2023_train_data.json"
+  dev_json: "./data/raw/vlsp2023_dev_data.json"
+  test_json: "./data/raw/vlsp2023_test_data.json"
+
+# Data loading preferences
+loading:
+  # Load from HuggingFace Hub
+  source: "huggingface"  # Options: "huggingface", "local_files"
+  
+  # Stream large datasets to save memory
+  streaming: false  # Set to true for very large datasets
+  
+  # Number of workers for data loading
+  num_workers: 4
+  
+  # Batch processing
+  batch_size: 32
+  shuffle: true
+  shuffle_seed: 42
+
+# Data preprocessing
+preprocessing:
+  # Text preprocessing
+  lowercase: false  # Keep Vietnamese casing
+  remove_special_chars: false  # Keep Vietnamese diacritics
+  max_question_length: 512
+  max_answer_length: 100
+  
+  # Image preprocessing
+  resize_images: true
+  target_image_size: 512  # Will be auto-adjusted by vision processor
+  
+  # Data validation
+  validate_images: true  # Check image integrity
+  validate_text: true   # Check text encoding
+
+# Dataset statistics
+statistics:
+  train_samples: 10000  # Approximate
+  dev_samples: 2000
+  test_samples: 2000
+  total_samples: 14000
+  
+# Languages
+language: "vietnamese"
+encoding: "utf-8"

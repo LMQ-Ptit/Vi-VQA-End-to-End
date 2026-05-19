@@ -1,0 +1,44 @@
+# Training Configuration for Vi-VQA
+training:
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 8
+  warmup_steps: 10
+  num_train_epochs: 3
+  learning_rate: 1e-5
+  weight_decay: 0.01
+  
+  # Precision
+  bf16: true
+  fp16: false
+  
+  # Optimizer
+  optim: "adamw_8bit"
+  max_grad_norm: 1.0
+  
+  # Logging & Saving
+  logging_steps: 1
+  eval_steps: 50
+  save_steps: 200
+  save_strategy: "steps"
+  save_total_limit: 2
+  logging_strategy: "steps"
+  evaluation_strategy: "steps"
+  
+  # Output
+  output_dir: "outputs-7B"
+  remove_unused_columns: false
+  
+  # Seeds
+  seed: 42
+  data_seed: 42
+  
+  # Misc
+  report_to: []  # Set to ["wandb"] for Weights & Biases logging
+
+environment:
+  pytorch_cuda_alloc_conf: "expandable_segments:True"
+  hf_hub_connect_timeout: 60
+  hf_hub_read_timeout: 60
+  hf_hub_etag_timeout: 60
+  hf_hub_disable_telemetry: true

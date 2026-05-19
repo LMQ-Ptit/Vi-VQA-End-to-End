@@ -1,0 +1,110 @@
+# Model Registry Configuration
+# Pre-trained models for Vi-VQA
+
+models:
+  
+  # Teacher Model: 7B trained on Vi-VQA
+  teacher_7b:
+    name: "Qwen-7B-Vi-VQA"
+    repo_id: "MinhQuy24/Qwen-7B-Vi-VQA"
+    size: "7B"
+    type: "teacher"
+    purpose: "trained_on_vqa"
+    description: "Qwen2-VL-7B model fine-tuned on Vietnamese VQA dataset"
+    
+    loading:
+      load_in_4bit: false
+      load_in_8bit: false
+      device_map: "auto"
+      torch_dtype: "bfloat16"
+      max_memory:
+        0: "30GB"  # Adjust based on your GPU
+    
+    generation:
+      max_new_tokens: 48
+      do_sample: false
+      temperature: 1.0
+      top_p: 0.9
+      use_cache: true
+  
+  # Student Model: 2B distilled from 7B
+  student_2b:
+    name: "Qwen-2B-ViVQA"
+    repo_id: "MinhQuy24/Qwen-2B-ViVQA"
+    size: "2B"
+    type: "student"
+    purpose: "distilled_from_7b"
+    description: "Qwen2-VL-2B model distilled from 7B teacher on Vietnamese VQA"
+    
+    loading:
+      load_in_4bit: true
+      load_in_8bit: false
+      device_map: "auto"
+      torch_dtype: "bfloat16"
+    
+    generation:
+      max_new_tokens: 48
+      do_sample: false
+      temperature: 1.0
+      top_p: 0.9
+      use_cache: true
+  
+  # Base Model: For training from scratch
+  base_7b:
+    name: "Qwen2-VL-7B-Instruct"
+    repo_id: "unsloth/Qwen2-VL-7B-Instruct"
+    size: "7B"
+    type: "base"
+    purpose: "training"
+    description: "Qwen2-VL base model for fine-tuning (from Unsloth)"
+    
+    loading:
+      load_in_4bit: true
+      load_in_8bit: false
+      device_map: "auto"
+      use_unsloth: true  # Use FastLanguageModel from Unsloth
+    
+    lora:
+      enabled: true
+      r: 32
+      lora_alpha: 32
+      lora_dropout: 0
+      target_modules:
+        - "q_proj"
+        - "k_proj"
+        - "v_proj"
+        - "o_proj"
+        - "gate_proj"
+        - "up_proj"
+        - "down_proj"
+
+# Loading defaults
+loading_defaults:
+  device: "cuda"
+  use_auth_token: true
+  streaming: false
+  cache_dir: "./data/cache"
+
+# Model comparison settings
+comparison:
+  enabled: true
+  compare_teacher_student: true
+  save_comparisons: true
+  output_dir: "./results/comparisons"
+
+# Inference defaults
+inference_defaults:
+  max_new_tokens: 48
+  do_sample: false
+  temperature: 1.0
+  num_beams: 1
+  use_cache: true
+
+# Evaluation settings
+evaluation:
+  metrics:
+    - "exact_match"
+    - "rouge_l"
+    - "bertscore_f1"
+  save_metrics: true
+  output_dir: "./results/metrics"

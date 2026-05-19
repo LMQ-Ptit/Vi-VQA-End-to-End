@@ -1,0 +1,33 @@
+# Git ignore for data folder
+# Since we load from HuggingFace, we don't need to commit large data files
+
+# Raw image data
+raw/
+!raw/.gitkeep
+
+# Processed data (usually large)
+processed/
+!processed/.gitkeep
+
+# Cache files
+cache/
+!cache/.gitkeep
+
+# JSON data files (if stored locally)
+*.json
+
+# Image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# Large files
+*.zip
+*.tar
+*.tar.gz
+
+# Temporary files
+*.tmp
+*.temp
+*~
