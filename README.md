@@ -22,7 +22,7 @@
 - [Results](#results)
 - [Documentation](#documentation)
 - [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
+
 
 ---
 
