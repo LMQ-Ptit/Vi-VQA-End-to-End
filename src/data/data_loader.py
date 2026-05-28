@@ -51,7 +51,7 @@ class VQADataLoader:
                 streaming=self.streaming,
             )
             
-            print(f"✅ Dataset loaded successfully!")
+            print(f"Dataset loaded successfully!")
             print(f"Available splits: {list(self.dataset.keys())}")
             
             for split_name in self.dataset.keys():
@@ -60,7 +60,7 @@ class VQADataLoader:
             return self.dataset
             
         except Exception as e:
-            print(f"❌ Error loading dataset: {e}")
+            print(f"Error loading dataset: {e}")
             raise
     
     def get_split(self, split_name: str) -> Dataset:
@@ -253,5 +253,5 @@ if __name__ == "__main__":
     dev_dataset = loader.get_dev()
     test_dataset = loader.get_test()
     
-    print(f"✅ Loaded datasets successfully!")
+    print(f"Loaded datasets successfully!")
     print(f"Train: {len(train_dataset)}, Dev: {len(dev_dataset)}, Test: {len(test_dataset)}")

@@ -169,7 +169,7 @@ class ConfigLoader:
         if env_config.get("hf_hub_disable_telemetry"):
             os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
         
-        print("✅ Environment variables set up")
+        print("Environment variables set up")
 
 
 if __name__ == "__main__":

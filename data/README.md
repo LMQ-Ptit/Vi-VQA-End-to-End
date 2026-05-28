@@ -69,10 +69,10 @@ Expected format from HuggingFace:
 
 ## Important Notes
 
-- ✅ Dataset is hosted on HuggingFace - **no need to download manually**
-- ✅ Images are typically 256×256 or 512×512
-- ✅ Questions are in Vietnamese
-- ✅ Answers are short Vietnamese phrases (1-20 words)
+- Dataset is hosted on HuggingFace - **no need to download manually**
+- Images are typically 256×256 or 512×512
+- Questions are in Vietnamese
+- Answers are short Vietnamese phrases (1-20 words)
 
 ## Environment Setup
 

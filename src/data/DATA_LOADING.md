@@ -61,8 +61,8 @@ print(f"Sample keys: {list(processed_train[0].keys())}")
 
 ## Features
 
-- ✅ Simple API for loading VQA datasets
-- ✅ Automatic HuggingFace Hub integration
-- ✅ Dataset statistics and sampling
-- ✅ Message formatting for VLM training
-- ✅ Support for multiple splits (train, dev, test)
+- Simple API for loading VQA datasets
+- Automatic HuggingFace Hub integration
+- Dataset statistics and sampling
+- Message formatting for VLM training
+- Support for multiple splits (train, dev, test)

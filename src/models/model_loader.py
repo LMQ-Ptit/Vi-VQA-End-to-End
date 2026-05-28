@@ -90,7 +90,7 @@ class VQAModelLoader:
         print(f"Loading model: {model_name}")
         
         # Load tokenizer
-        print(f"  → Loading tokenizer...")
+        print(f"  Loading tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained(
             model_name,
             use_auth_token=self.use_auth_token,
@@ -98,7 +98,7 @@ class VQAModelLoader:
         )
         
         # Load model
-        print(f"  → Loading model...")
+        print(f"  Loading model...")
         
         quantization_config = None
         if load_in_4bit:
@@ -123,7 +123,7 @@ class VQAModelLoader:
             torch_dtype=torch.bfloat16 if not load_in_4bit else None,
         )
         
-        print(f"  ✅ Model loaded successfully!")
+        print(f"  Model loaded successfully!")
         
         # Store references
         self.models[model_name] = model
@@ -171,7 +171,7 @@ class VQAModelLoader:
                 max_seq_length=2048,
                 load_in_4bit=True,
             )
-            print(f"  ✅ Base model loaded with Unsloth!")
+            print(f"  Base model loaded with Unsloth!")
             return model, tokenizer
         else:
             print(f"Unsloth not available, using standard transformers loader")
@@ -189,7 +189,7 @@ class VQAModelLoader:
         """Unload model to free memory"""
         if model_name in self.models:
             del self.models[model_name]
-            print(f"✅ Model '{model_name}' unloaded")
+            print(f"Model '{model_name}' unloaded")
         
         if model_name in self.tokenizers:
             del self.tokenizers[model_name]
@@ -198,7 +198,7 @@ class VQAModelLoader:
         """Unload all models"""
         self.models.clear()
         self.tokenizers.clear()
-        print("✅ All models unloaded")
+        print("All models unloaded")
     
     def list_loaded_models(self) -> list:
         """List all currently loaded models"""

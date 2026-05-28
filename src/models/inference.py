@@ -145,7 +145,7 @@ class VQAInference:
                     "reference_answer": ann.get("answer"),  # If available
                 })
             except Exception as e:
-                print(f"  ❌ Error processing {image_path}: {e}")
+                print(f"  Error processing {image_path}: {e}")
                 continue
         
         return results
@@ -165,7 +165,7 @@ class VQAInference:
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(predictions, f, ensure_ascii=False, indent=2)
         
-        print(f"✅ Saved {len(predictions)} predictions to {output_path}")
+        print(f"Saved {len(predictions)} predictions to {output_path}")
     
     @staticmethod
     def evaluate_predictions(
@@ -321,7 +321,7 @@ class ComparativeInference:
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(comparisons, f, ensure_ascii=False, indent=2)
         
-        print(f"✅ Saved {len(comparisons)} comparisons to {output_path}")
+        print(f"Saved {len(comparisons)} comparisons to {output_path}")
 
 
 if __name__ == "__main__":

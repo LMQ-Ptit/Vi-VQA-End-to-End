@@ -1,11 +1,6 @@
 # Vi-VQA: Vietnamese Visual Question Answering with Knowledge Distillation
 
-🇻🇳 **Vietnamese Visual Question Answering System** using Vision-Language Models with Knowledge Distillation pipeline: Train a large 7B model, then distill to a smaller 2B model.
-
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
-[![Transformers](https://img.shields.io/badge/Transformers-4.36+-yellow.svg)](https://huggingface.co/transformers/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+**Vietnamese Visual Question Answering System** using Vision-Language Models with Knowledge Distillation pipeline: Train a large 7B model, then distill to a smaller 2B model.
 
 ---
 
@@ -38,7 +33,7 @@ Vi-VQA is a complete end-to-end system for Vietnamese Visual Question Answering 
 
 **Complete Training Pipeline**
 - Supervised Fine-Tuning (SFT) on Vietnamese VQA dataset
-- Knowledge Distillation (7B → 2B)
+- Knowledge Distillation (7B to 2B)
 - LoRA fine-tuning for efficient training
 
 **Production Ready**
@@ -98,7 +93,7 @@ Vi-VQA-End-to-End/
 │
 ├── scripts/                          # Executable entry points
 │   ├── train.py                      # Train 7B model
-│   ├── distill.py                    # Knowledge distillation (7B → 2B)
+│   ├── distill.py                    # Knowledge distillation (7B to 2B)
 │   ├── inference.py                  # Run inference
 │   ├── evaluate.py                   # Evaluate models
 │   ├── __init__.py
@@ -164,9 +159,9 @@ Expected output:
 ```
 STEP 1: GPU Information
 STEP 2: Loading Base Model
-✓ Model loaded: Qwen2VLForConditionalGeneration
+Model loaded: Qwen2VLForConditionalGeneration
 STEP 3: Loading Dataset
-✓ Train set size: 5000
+Train set size: 5000
 STEP 4: Preparing Dataset
 STEP 5: Setting up Trainer
 STEP 6: Training
@@ -253,7 +248,7 @@ python train.py \
   --output-dir ../outputs-7B \
   --resume
 
-# Step 2: Knowledge Distillation (7B → 2B)
+# Step 2: Knowledge Distillation (7B to 2B)
 python distill.py \
   --config-dir ../configs \
   --output-dir ../outputs-2B-distilled \
@@ -309,9 +304,9 @@ See [scripts/README.md](scripts/README.md) for detailed usage.
 │ Output: outputs-7B/final_lora/                         │
 │ Push: MinhQuy24/Qwen-7B-Vi-VQA (HuggingFace Hub)      │
 └─────────────────────────────────────────────────────────┘
-                            ↓
+                            
 ┌─────────────────────────────────────────────────────────┐
-│ STEP 2: Knowledge Distillation (7B → 2B)              │
+│ STEP 2: Knowledge Distillation (7B to 2B)              │
 ├─────────────────────────────────────────────────────────┤
 │ Teacher: MinhQuy24/Qwen-7B-Vi-VQA (trained 7B)        │
 │ Student: Qwen/Qwen2-VL-2B-Instruct                    │
@@ -319,7 +314,7 @@ See [scripts/README.md](scripts/README.md) for detailed usage.
 │ Output: outputs-2B-distilled/final_lora/              │
 │ Push: MinhQuy24/Qwen-2B-ViVQA (HuggingFace Hub)       │
 └─────────────────────────────────────────────────────────┘
-                            ↓
+                            
 ┌─────────────────────────────────────────────────────────┐
 │ STEP 3: Evaluation & Inference                         │
 ├─────────────────────────────────────────────────────────┤
@@ -341,7 +336,7 @@ warmup_steps: 10
 save_steps: 200
 ```
 
-**Distillation (7B → 2B):**
+**Distillation (7B to 2B):**
 ```yaml
 temperature: 4.0          # Soft target temperature
 alpha: 0.5                # KD loss weight
@@ -399,7 +394,7 @@ use_rslora: true
 - Dev: ~1,000
 - Test: ~1,000
 - Language: Vietnamese
-- Format: Image + Question → Answer
+- Format: Image + Question to Answer
 
 **Auto-loading:**
 ```python
@@ -427,7 +422,7 @@ See [src/data/README.md](src/data/README.md) for details.
 
 ---
 
-## 📈 Results
+## Results
 
 ### Benchmark Results
 

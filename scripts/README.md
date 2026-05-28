@@ -2,7 +2,7 @@
 
 Standalone executable scripts for the entire Vi-VQA pipeline:
 - **Training** (7B on VQA)
-- **Distillation** (7B → 2B)
+- **Distillation** (7B to 2B)
 - **Inference** (single, batch, comparison)
 - **Evaluation** (metrics calculation)
 
@@ -36,22 +36,22 @@ python train.py --config-dir ../configs --output-dir ../outputs-7B
 └── training_history.json
 ```
 
-### 2. Knowledge Distillation (7B → 2B)
+### 2. Knowledge Distillation (7B to 2B)
 
 ```bash
 python distill.py --config-dir ../configs --output-dir ../outputs-2B-distilled
 ```
 
 **Features:**
-- ✅ Loads teacher: `MinhQuy24/Qwen-7B-Vi-VQA` (7B)
-- ✅ Loads student: `Qwen/Qwen2-VL-2B-Instruct` (2B)
-- ✅ Knowledge Distillation training:
+- Loads teacher: `MinhQuy24/Qwen-7B-Vi-VQA` (7B)
+- Loads student: `Qwen/Qwen2-VL-2B-Instruct` (2B)
+- Knowledge Distillation training:
   - Temperature: 4.0 (soft targets)
   - Alpha: 0.5 (KD loss weight)
   - Method: Response-based
-- ✅ Auto-resumes from checkpoint
-- ✅ Saves distilled student model
-- ✅ Optional: Push to HuggingFace Hub
+- Auto-resumes from checkpoint
+- Saves distilled student model
+- Optional: Push to HuggingFace Hub
 
 **Output:**
 ```
@@ -514,8 +514,8 @@ All scripts output detailed logs with timestamps:
 - Step-by-step progress
 - GPU information
 - Dataset loading status
-- ⏱️ Training time and loss
-- 📈 Metrics and results
+- Training time and loss
+- Metrics and results
 
 Enable debug logging:
 ```python

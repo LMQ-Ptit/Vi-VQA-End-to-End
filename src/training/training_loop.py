@@ -140,7 +140,7 @@ class VQATrainer:
             raise RuntimeError("Trainer not initialized. Call setup_trainer() first.")
         
         if self.eval_dataset is None:
-            print("⚠️  No evaluation dataset provided")
+            print("No evaluation dataset provided")
             return {}
         
         print(f"\n{'='*60}")
@@ -200,7 +200,7 @@ class VQATrainer:
         """Print training summary"""
         
         if self.trainer is None:
-            print("❌ Trainer not initialized")
+            print("Trainer not initialized")
             return
         
         print(f"\n{'='*60}")
@@ -263,7 +263,7 @@ class DistillationTrainer:
         try:
             return self.config_loader.load_yaml("distillation_config.yaml")
         except FileNotFoundError:
-            print("⚠️  distillation_config.yaml not found, using defaults")
+            print("distillation_config.yaml not found, using defaults")
             return {
                 "distillation": {
                     "temperature": 4.0,

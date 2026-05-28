@@ -30,7 +30,7 @@ class VQAModelWrapper:
         """Move model to device"""
         self.device = device
         self.model.to(device)
-        print(f"✅ Model moved to {device}")
+        print(f"Model moved to {device}")
     
     def get_model_info(self) -> Dict[str, Any]:
         """Get model information"""

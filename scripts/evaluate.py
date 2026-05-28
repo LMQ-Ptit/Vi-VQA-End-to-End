@@ -135,7 +135,7 @@ def evaluate_model(model_type, test_dataset=None, test_json=None):
             predictions.append(pred['answer'])
             references.append(answer)
     
-    logger.info(f"✓ Inference complete! Processed {len(predictions)} samples")
+    logger.info(f"Inference complete! Processed {len(predictions)} samples")
     
     # Calculate metrics
     logger.info("\nCalculating metrics...")
@@ -219,7 +219,7 @@ def compare_models_eval(test_dataset=None, test_json=None):
             comparisons.append(comp)
             references.append(answer)
     
-    logger.info(f"✓ Comparison complete! Processed {len(comparisons)} samples")
+    logger.info(f"Comparison complete! Processed {len(comparisons)} samples")
     
     # Extract predictions
     teacher_preds = [c['teacher_answer'] for c in comparisons]
@@ -301,7 +301,7 @@ def main():
         logger.info(f"\nSaving results to {args.output_file}...")
         with open(args.output_file, 'w') as f:
             json.dump(results, f, indent=2, ensure_ascii=False)
-        logger.info(f"✓ Saved!")
+        logger.info(f"Saved!")
 
 
 if __name__ == '__main__':

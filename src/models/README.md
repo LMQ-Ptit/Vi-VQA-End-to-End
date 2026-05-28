@@ -209,27 +209,27 @@ model_student:
 
 ### VQAModelLoader
 
-- `load_teacher_model()` → (model, tokenizer)
-- `load_student_model()` → (model, tokenizer)
-- `load_base_model()` → (model, tokenizer)
-- `get_model(name)` → model or None
-- `list_loaded_models()` → list
-- `unload_model(name)` → None
+- `load_teacher_model()` to (model, tokenizer)
+- `load_student_model()` to (model, tokenizer)
+- `load_base_model()` to (model, tokenizer)
+- `get_model(name)` to model or None
+- `list_loaded_models()` to list
+- `unload_model(name)` to None
 
 ### VQAInference
 
-- `predict_single(image, question, max_tokens)` → str
-- `predict_batch(images, questions, max_tokens)` → List[str]
-- `predict_from_file(path, question, max_tokens)` → str
-- `predict_from_json(json_path, max_tokens, limit)` → List[Dict]
-- `save_predictions(predictions, output_path)` → None
+- `predict_single(image, question, max_tokens)` to str
+- `predict_batch(images, questions, max_tokens)` to List[str]
+- `predict_from_file(path, question, max_tokens)` to str
+- `predict_from_json(json_path, max_tokens, limit)` to List[Dict]
+- `save_predictions(predictions, output_path)` to None
 
 ### TeacherModel / StudentModel
 
-- `answer_question(image, question, max_tokens)` → str
-- `generate(images, questions, max_tokens, ...)` → List[str]
-- `print_model_info()` → None
-- `to(device)` → None
+- `answer_question(image, question, max_tokens)` to str
+- `generate(images, questions, max_tokens, ...)` to List[str]
+- `print_model_info()` to None
+- `to(device)` to None
 
 ## Troubleshooting
 
